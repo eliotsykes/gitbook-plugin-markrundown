@@ -4,6 +4,7 @@ module.exports = {
   blocks: {
     exec: {
       process: function(block) {
+        console.log("Encountered exec", block);
         // console.log("++++++++++++++++++++++++");
         // console.log("here is the block", block);
         // console.log("++++++++++++++++++++++++");
@@ -19,12 +20,12 @@ module.exports = {
         return block.body;
       }
     },
-    hide: {
-      process: function(block) {
-        console.log("hiding", block);
-        return "";
-      }
-    },
+    // hide: {
+    //   process: function(block) {
+    //     console.log("hiding", block);
+    //     return "";
+    //   }
+    // },
     patch: {
       process: function(block) {
         console.log("Encountered patch", block);
@@ -33,6 +34,28 @@ module.exports = {
     }
   },
   hooks: {
+    init: function(page) {
+      console.log("HOOKS: init");
+      return page;
+    },
+    finish: function(page) {
+      console.log("HOOKS: finish");
+      return page;
+    },
+    "finish:before": function(page) {
+      console.log("HOOKS: finish:before");
+      return page;
+    },
+    // Deprecated:
+    page: function(page) {
+      console.log("HOOKS: page");
+      return page;
+    },
+    // Deprecatred:
+    "page:before": function(page) {
+      console.log("HOOKS: page:before");
+      return page;
+    }
     // "page:before": function(page) {
     //   console.log("-------------------------");
     //   console.log("page in markrundown plugin is:", page);
