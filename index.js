@@ -4,7 +4,7 @@ module.exports = {
   blocks: {
     run: {
       process: function(block) {
-        console.log("Encountered run", block);
+        // console.log("Encountered run", block, this);
         // console.log("++++++++++++++++++++++++");
         // console.log("here is the block", block);
         // console.log("++++++++++++++++++++++++");
@@ -28,7 +28,18 @@ module.exports = {
     // },
     patch: {
       process: function(block) {
-        console.log("Encountered patch", block);
+        var regexToExtractPatch = /(?:\`{2,})(?:\s+)([^]*?)(?:\s+)(?:\`{2,})/g;
+        var patch = regexToExtractPatch.exec(block.body)[1];
+        
+        function stripEscapedChars(patch) {
+          var stripped = patch.replace(/\\-/g, '-').replace(/\\[+]/g, '+');
+          return stripped;
+        }
+
+        patch = stripEscapedChars(patch);
+        
+        var gitApplyCmd = "git apply --directory=build/hello-world - <<< '\n" + patch + "'\n";
+        exec(gitApplyCmd);
         return block.body;
       }
     }
