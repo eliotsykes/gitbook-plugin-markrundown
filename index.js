@@ -2,16 +2,16 @@ var exec = require('child_process').execSync;
 
 module.exports = {
   blocks: {
-    exec: {
+    run: {
       process: function(block) {
-        console.log("Encountered exec", block);
+        console.log("Encountered run", block);
         // console.log("++++++++++++++++++++++++");
         // console.log("here is the block", block);
         // console.log("++++++++++++++++++++++++");
-        var executableBodyRegex = /(?:\`{2,})(bash)(?:\s+)([^]*?)(?:\s+)(?:\`{2,})/g;
-        var executableData = executableBodyRegex.exec(block.body);
-        var language = executableData[1];
-        var body = executableData[2];
+        var regexToExtractRunnable = /(?:\`{2,})(bash)(?:\s+)([^]*?)(?:\s+)(?:\`{2,})/g;
+        var runnable = regexToExtractRunnable.exec(block.body);
+        var language = runnable[1];
+        var body = runnable[2];
         if (language === "bash") {
           exec(body);  
         } else {
@@ -51,7 +51,7 @@ module.exports = {
       console.log("HOOKS: page");
       return page;
     },
-    // Deprecatred:
+    // Deprecated:
     "page:before": function(page) {
       console.log("HOOKS: page:before");
       return page;
