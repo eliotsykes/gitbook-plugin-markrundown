@@ -21,7 +21,7 @@ Markrundown documents&hellip;
 - zip up folders for distribution with your book
 - can do anything else you can code
 
-Currently Markrundown is requires use with [gitbook](https://github.com/GitbookIO/gitbook) though the syntax can be adapted to be used elsewhere.
+Currently Markrundown requires use with [gitbook](https://github.com/GitbookIO/gitbook) (although the syntax can be adapted to be used in other markdown parsing applications).
 
 ## Installation
 
