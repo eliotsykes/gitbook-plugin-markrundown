@@ -1,18 +1,20 @@
-
 {
-    "name": "gitbook-plugin-markrundown",
-    "description": "Runnable (executable) Markdown plugin for GitBook",
-    "main": "index.js",
-    "version": "0.0.1",
-    "engines": {
-        "gitbook": "*"
-    },
-    "homepage": "https://github.com/eliotsykes/gitbook-plugin-markrundown",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/eliotsykes/gitbook-plugin-markrundown.git"
-    },
-    "bugs": {
-        "url": "https://github.com/eliotsykes/gitbook-plugin-markrundown/issues"
-    }
+  "name": "gitbook-plugin-markrundown",
+  "description": "Runnable (executable) Markdown plugin for GitBook",
+  "main": "index.js",
+  "version": "0.0.1",
+  "engines": {
+    "gitbook": "*"
+  },
+  "homepage": "https://github.com/eliotsykes/gitbook-plugin-markrundown",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eliotsykes/gitbook-plugin-markrundown.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eliotsykes/gitbook-plugin-markrundown/issues"
+  },
+  "dependencies": {
+    "kramed": "^0.5.0"
+  }
 }

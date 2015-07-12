@@ -1,13 +1,10 @@
 var exec = require('child_process').execSync;
+var kramed = require('kramed');
 
 module.exports = {
   blocks: {
     run: {
       process: function(block) {
-        console.log("Encountered run");
-        // console.log("++++++++++++++++++++++++");
-        // console.log("here is the block", block);
-        // console.log("++++++++++++++++++++++++");
         var regexToExtractRunnable = /(?:\`{3,})(bash)(?:\s+)([^]*?)(?:\s+)(?:\`{3,})/g;
         var runnable = regexToExtractRunnable.exec(block.body);
         var language = runnable[1];
@@ -17,8 +14,9 @@ module.exports = {
         } else {
           throw "Currently unable to handle language '" + language + "'";
         }
-        // return block.body;
-        return "nothing";
+        console.log("how to parse markdown", this);
+
+        return kramed(block.body);
       }
     },
     // hide: {
@@ -29,21 +27,20 @@ module.exports = {
     // },
     patch: {
       process: function(block) {
-        console.log("Encountered patch");
-        // var regexToExtractPatch = /(?:\`{3,})(?:\s+)([^]*?)(?:\s+)(?:\`{3,})/g;
-        // var patch = regexToExtractPatch.exec(block.body)[1];
+        var fencedBlockRegex = /^(`{3,}|~{3,})(.*)\n([\s\S]+?)\s*\1 *(?:\n|$)/;
+        var match = block.body.trim().match(fencedBlockRegex);
+        var patch = match[3];
         
-        // function stripEscapedChars(patch) {
-        //   var stripped = patch.replace(/\\-/g, '-').replace(/\\[+]/g, '+');
-        //   return stripped;
-        // }
+        function stripEscapedChars(patch) {
+          var stripped = patch.replace(/\\-/g, '-').replace(/\\[+]/g, '+');
+          return stripped;
+        }
 
-        // patch = stripEscapedChars(patch);
+        patch = stripEscapedChars(patch);
         
-        // var gitApplyCmd = "git apply --directory=build/hello-world <<EOF\n" + patch + "\nEOF";
-        // exec(gitApplyCmd);
-        // return block.body;
-        return "nothing";
+        var gitApplyCmd = "git apply <<EOF\n" + patch + "\nEOF";
+        exec(gitApplyCmd);
+        return kramed(block.body);
       }
     }
   },
@@ -75,49 +72,40 @@ module.exports = {
       var fencedBlockRegex = /^(`{3,}|~{3,})(.*)\n([\s\S]+?)\s*\1 *(?:\n|$)/;
       
       var allFencedBlocks = page.content.match(allFencedBlocksRegex);
-      console.log("allFencedBlocks", allFencedBlocks);
 
       for (var i = 0; allFencedBlocks && i < allFencedBlocks.length; i++) {
         var match = allFencedBlocks[i].match(fencedBlockRegex);
-        console.log("match", match);
-        // var input = match.input.replace(match[2], "");
+        var keywords = match[2].split(/\s+/);
+        
+        var isPatch = "patch" === keywords[0];
+        var isToBeHidden = keywords.indexOf("hide") >= 0;
+
+        var block = false;
+
+        if (isPatch) {
+          block = "{% patch %}\n" + match.input + "\n{% endpatch %}";
+        } else {
+          var isToBeRun = keywords.indexOf("run") >= 0;
+          if (isToBeRun) {
+            var fence = match[1];
+            var body = match[3];
+            var language = keywords.shift();
+          
+            block = "{% run %}\n"
+              + fence + language + "\n"
+              + body + "\n"
+              + fence + "\n{% endrun %}";
+          }
+        }
+
+        if (block) {
+          page.content = page.content.replace(match.input, block);
+        }
         
       }
 
       return page;
 
-      // var regixAll = /([^\S]```.*)(:(.+))[\s\S]+?```/g;
-      // var regix = /([^\S]```.*)(:(.+))[\s\S]+?```/;
-      // var matchAll = page.content.match(regixAll);
-
-      // for(var i = 0; matchAll && i < matchAll.length; i++){
-      //   var match = matchAll[i].match(regix);
-      //   var input = match.input.replace(match[2], "");
-      //   var replace = input.replace(match[1], "\n\n!FILENAME " + match[3] + match[1]);
-      //   page.content = page.content.replace(match.input, replace);
-      // }
-
-      // return page;
-      // console.log("HOOKS: page:before", page, this);
-      // if (this.readmeFile != page.path) {
-        // console.log("NOT README.md", this.readmeFile, page.path);
-        // page.content = page.content + "{% patch %}\necho{% endpatch %}\n";
-      // }
-      // page.content = page.content + "{% patch %}\necho{% endpatch %}\n";
-      // var regexToExtractRunnable = /(?:\`{3,})(bash)(?:\s+)([^]*?)(?:\s+)(?:\`{3,})/g;
-      // var runnable = regexToExtractRunnable.exec(block.body);
-      // var language = runnable[1];
-      // var body = runnable[2];
-      // if (language === "bash") {
-      //   exec(body);  
-      // } else {
-      //   throw "Currently unable to handle language '" + language + "'";
-      // }
-      // // return block.body;
-      // return "nothing";
-
-      
-      // return page;
     }
     // "page:before": function(page) {
     //   console.log("-------------------------");
