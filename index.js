@@ -1,5 +1,5 @@
 var exec = require('child_process').execSync;
-var kramed = require('kramed');
+var kramed = require('kramed'); // kramed is the markdown processor
 
 module.exports = {
   blocks: {
@@ -14,8 +14,6 @@ module.exports = {
         } else {
           throw "Currently unable to handle language '" + language + "'";
         }
-        console.log("how to parse markdown", this);
-
         return kramed(block.body);
       }
     },
@@ -30,13 +28,6 @@ module.exports = {
         var fencedBlockRegex = /^(`{3,}|~{3,})(.*)\n([\s\S]+?)\s*\1 *(?:\n|$)/;
         var match = block.body.trim().match(fencedBlockRegex);
         var patch = match[3];
-        
-        function stripEscapedChars(patch) {
-          var stripped = patch.replace(/\\-/g, '-').replace(/\\[+]/g, '+');
-          return stripped;
-        }
-
-        patch = stripEscapedChars(patch);
         
         var gitApplyCmd = "git apply <<EOF\n" + patch + "\nEOF";
         exec(gitApplyCmd);
@@ -66,7 +57,6 @@ module.exports = {
     // Deprecated:
     "page:before": function(page) {
 
-      // var allFencedBlocksRegex = /^(`{3,}|~{3,}) *(\S+ ?)* *\n([\s\S]+?)\s*\1 *(?:\n|$)/mg;
       var allFencedBlocksRegex = /^(`{3,}|~{3,})(.*)\n([\s\S]+?)\s*\1 *(?:\n|$)/mg;
       
       var fencedBlockRegex = /^(`{3,}|~{3,})(.*)\n([\s\S]+?)\s*\1 *(?:\n|$)/;
@@ -83,7 +73,13 @@ module.exports = {
         var block = false;
 
         if (isPatch) {
-          block = "{% patch %}\n" + match.input + "\n{% endpatch %}";
+          var fence = match[1];
+          var body = match[3];
+
+          block = "{% patch %}\n"
+              + fence + "diff\n" // Change patch to diff for highlightjs css
+              + body + "\n"
+              + fence + "\n{% endpatch %}";
         } else {
           var isToBeRun = keywords.indexOf("run") >= 0;
           if (isToBeRun) {
@@ -108,11 +104,6 @@ module.exports = {
 
     }
     // "page:before": function(page) {
-    //   console.log("-------------------------");
-    //   console.log("page in markrundown plugin is:", page);
-    //   console.log("page.type in markrundown plugin is:", page.type);
-    //   console.log("page.sections in markrundown plugin is:", page.sections);
-    //   console.log("-------------------------");
     //   return page;
     // }
   }
