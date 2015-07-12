@@ -38,7 +38,7 @@ module.exports = {
 
         patch = stripEscapedChars(patch);
         
-        var gitApplyCmd = "git apply --directory=build/hello-world - <<< '\n" + patch + "'\n";
+        var gitApplyCmd = "git apply --directory=build/hello-world <<EOF\n" + patch + "\nEOF";
         exec(gitApplyCmd);
         return block.body;
       }
