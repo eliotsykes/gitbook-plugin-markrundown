@@ -67,7 +67,7 @@ To apply a patch to the book's codebase, use the `patch` as the language on the 
 ```
 </pre>
 
-If you're book is a step-by-step walkthrough of code changes that the reader should make, you can use a combination of `patch` and `run` code blocks to perform and verify the same steps.
+If your book is a step-by-step walkthrough of code changes that the reader should make, you can use a combination of `patch` and `run` code blocks to perform and verify the same steps.
 
 Here are some ideas to get you started:
 
