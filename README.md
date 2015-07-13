@@ -16,9 +16,9 @@ Markrundown documents&hellip;
 - can write code
 - can apply patches
 - can build git repos from scratch
-- screengrab any URL and insert it in your book
-- update screengrab images from any URL
-- zip up folders for distribution with your book
+- may screengrab any URL and insert it in your book
+- can update screengrab images from any URL
+- may zip up folders for distribution with your book
 - can do anything else you can code
 
 Currently Markrundown requires use with [gitbook](https://github.com/GitbookIO/gitbook) (although the syntax can be adapted to be used in other markdown parsing applications).
