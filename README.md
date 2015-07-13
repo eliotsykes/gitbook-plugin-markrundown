@@ -91,8 +91,8 @@ Here is the `hide` option being used with `bash run hide`:
 
 <pre>
 ```bash run hide
-# Cleanup steps you don't want to show the reader. This block will not be output in the final book but
-# it will be executed during the book build.
+# Cleanup steps you don't want to show the reader. This block will not be output
+# in the final book but it will be executed during the book build.
 rm -Rf hello-world/
 ```
 </pre>
