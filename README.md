@@ -26,7 +26,10 @@ Currently Markrundown requires use with [gitbook](https://github.com/GitbookIO/g
 ## Installation
 
 1. Create a [gitbook](https://github.com/GitbookIO/gitbook)
-2. Install the eliotsykes/gitbook-plugin-markdown github repo as a node module with npm
+2. Install the github repo as a node module with npm:
+```bash
+npm install --save git://github.com/eliotsykes/gitbook-plugin-markdown.git
+```
 3. In the gitbook's `book.json`, add the `"markrundown"` plugin in the `"plugins"` option:
 
 ```json
