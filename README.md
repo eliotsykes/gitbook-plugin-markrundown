@@ -18,6 +18,8 @@ Markrundown documents&hellip;
 - can build git repos from scratch
 - may screengrab any URL and insert it in your book
 - can update screengrab images from any URL
+- can run a test as soon as it is added to the tutorial's codebase
+- can run a changing test multiple times as it evolves throughout the book
 - may zip up folders for distribution with your book
 - can do anything else you can code
 
