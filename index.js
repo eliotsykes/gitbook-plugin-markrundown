@@ -14,15 +14,14 @@ module.exports = {
         } else {
           throw "Currently unable to handle language '" + language + "'";
         }
+        
+        var hide = block.kwargs["hide"];
+        if (hide) {
+          return "";
+        }
         return kramed(block.body);
       }
     },
-    // hide: {
-    //   process: function(block) {
-    //     console.log("hiding", block);
-    //     return "";
-    //   }
-    // },
     patch: {
       process: function(block) {
         var fencedBlockRegex = /^(`{3,}|~{3,})(.*)\n([\s\S]+?)\s*\1 *(?:\n|$)/;
@@ -31,6 +30,11 @@ module.exports = {
         
         var gitApplyCmd = "git apply <<EOF\n" + patch + "\nEOF";
         exec(gitApplyCmd);
+        
+        var hide = block.kwargs["hide"];
+        if (hide) {
+          return "";
+        }
         return kramed(block.body);
       }
     }
@@ -73,21 +77,31 @@ module.exports = {
         var block = false;
 
         if (isPatch) {
+          var tagWithArgs = "patch"
+          if (isToBeHidden) {
+            tagWithArgs += " hide=true"
+          }
+
           var fence = match[1];
           var body = match[3];
 
-          block = "{% patch %}\n"
+          block = "{% " + tagWithArgs + " %}\n"
               + fence + "diff\n" // Change patch to diff for highlightjs css
               + body + "\n"
               + fence + "\n{% endpatch %}";
         } else {
           var isToBeRun = keywords.indexOf("run") >= 0;
           if (isToBeRun) {
+            var tagWithArgs = "run"
+            if (isToBeHidden) {
+              tagWithArgs += " hide=true"
+            }
+
             var fence = match[1];
             var body = match[3];
             var language = keywords.shift();
           
-            block = "{% run %}\n"
+            block = "{% " + tagWithArgs + " %}\n"
               + fence + language + "\n"
               + body + "\n"
               + fence + "\n{% endrun %}";
@@ -103,8 +117,5 @@ module.exports = {
       return page;
 
     }
-    // "page:before": function(page) {
-    //   return page;
-    // }
   }
 }

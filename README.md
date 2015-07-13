@@ -37,6 +37,8 @@ Currently Markrundown requires use with [gitbook](https://github.com/GitbookIO/g
 
 To inline a bash script you want to run, use the `run` keyword after the language on the opening fence:
 
+### `run` keyword
+
 <pre>
 ```bash run
 mkdir hello-world
@@ -46,6 +48,8 @@ git add .
 git commit -m "Initial commit of app used in your book"
 ```
 </pre>
+
+### `patch` keyword
 
 To apply a patch to the book's codebase, use the `patch` as the language on the opening fence line:
 
@@ -75,6 +79,34 @@ Here are some ideas to get you started:
 - Use `patch` blocks throughout to make the code changes you want your reader to make to their app codebase
 - Use `bash run` blocks regularly to `git commit -m '...'` the changes made by most recent `patch`(es) 
 - Zip your book's codebase with a `bash run` block
+
+
+### `hide` option
+
+The `hide` option is useful when you need the book build to run some code or apply some patches that are not relevant to the reader.
+
+You can hide the content of a `run` or `patch` block from the final book by adding the `hide` option to the opening fence.
+
+Here is the `hide` option being used with `bash run hide`:
+
+<pre>
+```bash run hide
+# Cleanup steps you don't want to show the reader. This block will not be output in the final book but
+# it will be executed during the book build.
+rm -Rf hello-world/
+```
+</pre>
+
+Here is the `hide` option being used with `patch hide`. The content of this patch will be applied but the text of it will not appear in the book:
+
+<pre>
+```patch hide
+--- a/hello-world/top-secret.txt
++++ b/hello-world/top-secret.txt
+@@ -1,9 +1,5 @@
+...
+```
+</pre>
 
 
 ## Updating your book
