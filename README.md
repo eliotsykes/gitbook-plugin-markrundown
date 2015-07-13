@@ -1,6 +1,6 @@
 # Markrundown
 
-> Runnable markdown documents, with superpowers for authors who write programming tutorials and gitorials. Your book executes the same steps your readers will, including shell commands, writing code, committing to a git repo, and preparing associated distributables (e.g. zipped git repos).
+> Runnable markdown documents, with superpowers for authors who write programming tutorials and gitorials. Your book executes the same steps your readers will, including shell commands, writing code, and committing to a git repo.
 
 Markrundown allows you to write markdown that takes advantage of your coding skills to make writing a  book less repetitive and more like programming. 
 
