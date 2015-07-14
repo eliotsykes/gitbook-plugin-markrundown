@@ -122,3 +122,8 @@ Here is the `hide` option being used with `patch hide`. The content of this patc
 
 If a library your book depends on changes, you will make any needed changes in the `patch` and `bash run` blocks in the markrundown document. You then simply rebuild the book and its associated codebase from scratch by running `gitbook build`.
 
+## Runnable Markdown Recipes
+
+Figured out how to do something useful with markrundown? Submit it as a Pull Request to include as a recipe here in the README and help out your fellow authors!
+
+
