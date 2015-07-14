@@ -21,6 +21,8 @@ Markrundown documents&hellip;
 - can run a test as soon as it is added to the tutorial's codebase
 - can run a changing test multiple times as it evolves throughout the book
 - may zip up folders for distribution with your book
+- can capture and publish terminal output in your book
+- can screen record and produce animated gifs and videos
 - can do anything else you can code
 
 Currently Markrundown requires use with [gitbook](https://github.com/GitbookIO/gitbook) (although there's nothing stopping the syntax being used in other markdown parsers to produce runnable markdown).
