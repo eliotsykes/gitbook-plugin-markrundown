@@ -2,17 +2,17 @@
 
 > Runnable markdown documents, with superpowers for authors who write programming tutorials and gitorials. Your book executes the same steps your readers will, including shell commands, writing code, and committing to a git repo.
 
-Markrundown allows you to write markdown that takes advantage of your coding skills to make writing a  book less repetitive and more like programming. 
+Markrundown allows you to write markdown that takes advantage of your coding skills to make writing a  book less repetitive and more like programming.
 
 This is good for technical books that must be maintained over time to incorporate ongoing changes of the book's dependencies (e.g. library and API changes).
 
 Markrundown documents&hellip;
 
-- are valid markdown 
+- are valid markdown
 - are plain text
 - build ebooks (epub, mobi, pdf) thanks to [gitbook](https://github.com/GitbookIO/gitbook)
 - allow you to maintain a book's associated codebase from one source of truth
-- can run scripts 
+- can run scripts
 - can write code
 - can apply patches
 - can build git repos from scratch
@@ -33,7 +33,7 @@ Currently Markrundown requires use with [gitbook](https://github.com/GitbookIO/g
 2. Install the github repo as a node module with npm:
 
     ```
-    npm install --save git://github.com/eliotsykes/gitbook-plugin-markdown.git
+    npm install --save git://github.com/eliotsykes/gitbook-plugin-markrundown.git
     ```
 
 3. In the gitbook's `book.json`, add the `"markrundown"` plugin in the `"plugins"` option:
@@ -74,7 +74,7 @@ To apply a patch to the book's codebase, use the `patch` as the language on the 
 -  # You can have the root of your site routed with "root"
 -  # root 'welcome#index'
 +  root 'welcome#index'
- 
+
    # Example of regular route:
    #   get 'products/:id' => 'catalog#view'
 ```
@@ -86,7 +86,7 @@ Here are some ideas to get you started:
 
 - Use a `bash run` block to run the current test suite
 - Use `patch` blocks throughout to make the code changes you want your reader to make to their app codebase
-- Use `bash run` blocks regularly to `git commit -m '...'` the changes made by most recent `patch`(es) 
+- Use `bash run` blocks regularly to `git commit -m '...'` the changes made by most recent `patch`(es)
 - Zip your book's codebase with a `bash run` block
 
 
@@ -125,5 +125,3 @@ If a library your book depends on changes, you will make any needed changes in t
 ## Runnable Markdown Recipes
 
 Figured out how to do something useful with markrundown? Submit it as a Pull Request to include as a recipe here in the README and help out your fellow authors!
-
-
