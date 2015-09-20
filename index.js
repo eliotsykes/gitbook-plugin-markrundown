@@ -10,11 +10,13 @@ module.exports = {
         var language = runnable[1];
         var body = runnable[2];
         if (language === "bash") {
-          exec(body);  
+          book_work_dir = 'tmp2'
+          FileUtils.mkdir_p book_work_dir
+          exec(body, chdir: book_work_dir);
         } else {
           throw "Currently unable to handle language '" + language + "'";
         }
-        
+
         var hide = block.kwargs["hide"];
         if (hide) {
           return "";
@@ -27,10 +29,10 @@ module.exports = {
         var fencedBlockRegex = /^(`{3,}|~{3,})(.*)\n([\s\S]+?)\s*\1 *(?:\n|$)/;
         var match = block.body.trim().match(fencedBlockRegex);
         var patch = match[3];
-        
+
         var gitApplyCmd = "git apply <<EOF\n" + patch + "\nEOF";
         exec(gitApplyCmd);
-        
+
         var hide = block.kwargs["hide"];
         if (hide) {
           return "";
@@ -62,15 +64,15 @@ module.exports = {
     "page:before": function(page) {
 
       var allFencedBlocksRegex = /^(`{3,}|~{3,})(.*)\n([\s\S]+?)\s*\1 *(?:\n|$)/mg;
-      
+
       var fencedBlockRegex = /^(`{3,}|~{3,})(.*)\n([\s\S]+?)\s*\1 *(?:\n|$)/;
-      
+
       var allFencedBlocks = page.content.match(allFencedBlocksRegex);
 
       for (var i = 0; allFencedBlocks && i < allFencedBlocks.length; i++) {
         var match = allFencedBlocks[i].match(fencedBlockRegex);
         var keywords = match[2].split(/\s+/);
-        
+
         var isPatch = "patch" === keywords[0];
         var isToBeHidden = keywords.indexOf("hide") >= 0;
 
@@ -100,7 +102,7 @@ module.exports = {
             var fence = match[1];
             var body = match[3];
             var language = keywords.shift();
-          
+
             block = "{% " + tagWithArgs + " %}\n"
               + fence + language + "\n"
               + body + "\n"
@@ -111,7 +113,7 @@ module.exports = {
         if (block) {
           page.content = page.content.replace(match.input, block);
         }
-        
+
       }
 
       return page;
