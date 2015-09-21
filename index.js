@@ -10,9 +10,9 @@ module.exports = {
         var language = runnable[1];
         var body = runnable[2];
         if (language === "bash") {
-          book_work_dir = 'tmp2'
-          FileUtils.mkdir_p book_work_dir
-          exec(body, chdir: book_work_dir);
+          var workDir = 'tmp'
+          exec("mkdir -p " + workDir);
+          exec(body, {cwd: workDir});
         } else {
           throw "Currently unable to handle language '" + language + "'";
         }
