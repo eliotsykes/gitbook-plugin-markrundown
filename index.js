@@ -1,5 +1,6 @@
 var exec = require('child_process').execSync;
 var kramed = require('kramed'); // kramed is the markdown processor
+var config = require(process.cwd() + '/markrundown');
 
 module.exports = {
   blocks: {
@@ -10,9 +11,9 @@ module.exports = {
         var language = runnable[1];
         var body = runnable[2];
         if (language === "bash") {
-          var workDir = 'tmp'
-          exec("mkdir -p " + workDir);
-          exec(body, {cwd: workDir});
+          var buildPath = config.buildPath || "build";
+          exec("mkdir -p " + buildPath);
+          exec(body, {cwd: buildPath});
         } else {
           throw "Currently unable to handle language '" + language + "'";
         }

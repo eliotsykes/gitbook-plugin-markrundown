@@ -42,6 +42,14 @@ Currently Markrundown requires use with [gitbook](https://github.com/GitbookIO/g
     "plugins": [ "markrundown" ]
     ```
 
+4. *Optional* Create a `markrundown.json` options file in the project root (i.e. the directory containing `book.json`) to configure the `buildPath` directory. Sample `markrundown.json` with the default option value:
+
+    ```
+    {
+      "buildPath": "build"
+    }
+    ```
+
 ## Usage
 
 To inline a bash script you want to run, use the `run` keyword after the language on the opening fence:
